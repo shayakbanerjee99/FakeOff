@@ -1,0 +1,37 @@
+create database FakeNewsApp;
+
+Create user ‘User’@’localhost’;
+
+GRANT ALL privileges on FakeNewsApp.* to ‘User’@’localhost’;
+
+use FakeNewsApp;
+
+create table USERDB
+(username varchar(20) PRIMARY KEY,
+name varchar(100) NOT NULL,
+password varchar(100) NOT NULL,
+credits int DEFAULT 5);
+
+create table LINKDB
+(link varchar(2083) NOT NULL,
+username varchar(20),
+linkid int PRIMARY KEY,
+pollFake int DEFAULT 0,
+pollTrue int DEFAULT 0,
+time timestamp DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY(username) REFERENCES USERDB(username));
+
+Alter table LINKDB
+Modify column linkid int auto_increment;
+
+
+create table UserPoll
+(username varchar(20) NOT NULL,
+linkid int NOT NULL,
+FOREIGN KEY(username) REFERENCES USERDB(username),
+FOREIGN KEY(linkid) REFERENCES LINKDB(linkid));
+
+#test data
+Insert into USERDB values(“testUser01”, “Test User1”, “password”, 5);
+Insert into USERDB values(“testUser02”, “Test User2”, “passwordP”, 5);
+
